@@ -22,6 +22,8 @@ GOTO parse
 git add *
 git commit -m "%commitMessage%"
 git push -u origin %branchName%
+echo Git Command finished
+pause
 exit /b
 
 :helper

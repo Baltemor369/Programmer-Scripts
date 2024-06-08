@@ -48,7 +48,6 @@ IF "%~1"=="" (
 
 :endparse
 IF "%remote%"=="" GOTO errorOrigin
-@echo on
 
 git init
 git add *
@@ -56,8 +55,7 @@ git commit -m "%message%"
 git branch -m %branchName%
 git remote add origin %remote%
 git push -u origin %branchName%
-@echo off
-echo push succeed
+echo Git Command finished
 pause
 exit /b
 
