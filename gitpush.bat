@@ -5,6 +5,10 @@ IF "%~1"=="-help" GOTO helper
 SET branchName=main
 SET commitMessage=Update
 
+echo Have you created a .gitignore ? (y/n)
+set /p userResponse=
+IF /I "%userResponse%" NEQ "y" GOTO errorGitignore
+
 :parse
 IF "%~1"=="" GOTO endparse
 IF "%~1"=="-b" (
@@ -24,11 +28,16 @@ git commit -m "%commitMessage%"
 git push -u origin %branchName%
 echo Git Command finished
 pause
-exit /b
+exit /b 0
+
+:errorGitignore
+echo you should create a .gitignore before launch this script.
+pause
+exit /b 1
 
 :helper
 echo NOM 
-echo    gitpush
+echo    gitpush : add, commit and push on github your project.
 echo.
 echo SYNTAXE
 echo    gitpush [OPTION1] [OPTION2]
@@ -36,3 +45,4 @@ echo.
 echo OPTION
 echo    -b : name of the branch [OPTIONAL] (Default:main).
 echo    -m : the commit message [OPTIONAL] (Default:Update).
+echo    -h : the helper.

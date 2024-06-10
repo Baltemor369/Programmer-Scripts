@@ -57,26 +57,27 @@ git remote add origin %remote%
 git push -u origin %branchName%
 echo Git Command finished
 pause
-exit /b
+exit /b 0
 
 :errorGitignore
 echo you should create a .gitignore before launch this script.
 pause
-exit /b
+exit /b 1
 
 :errorOrigin
 echo check your argument -o.
 pause
-exit /b
+exit /b 1
 
 :helper
 echo NOM 
-echo    gitinit
+echo    gitinit : init the local git repository with the remote repository.
 echo.
 echo SYNTAXE
 echo    gitinit [OPTION1] [OPTION2] [OPTION3]
 echo.
 echo OPTION
-echo    -o : the url of your git repository.
+echo    -o : the HTTPS url of the remote git repository.
 echo    -b : the name of the branch [OPTIONAL] (Default:main).
-echo    -m : your commit message [OPTIONAL] (Default:first commit).
+echo    -m : the commit message [OPTIONAL] (Default:first commit).
+echo    -h : the helper.

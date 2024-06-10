@@ -9,14 +9,16 @@ IF "%~1"=="-n" (
 )
 
 python name
+exit /b 0
 
 :helper
 echo.
 echo NOM 
-echo    runPython
+echo    runPython : run a Python project.
 echo.
 echo SYNTAXE
 echo    runPython [OPTION]
 echo.
 echo OPTION
 echo    -n : program name which start your app [OPTIONAL] (Default:main.py).
+echo    -h : the helper.
