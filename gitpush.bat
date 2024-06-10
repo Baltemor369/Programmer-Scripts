@@ -38,7 +38,7 @@ echo NOM
 echo    gitpush : add, commit and push on github your project.
 echo.
 echo SYNTAXE
-echo    gitpush [OPTION1] [OPTION2]
+echo    gitpush [-OPTION] [args]
 echo.
 echo OPTION
 echo    -b : name of the branch [OPTIONAL] (Default:main).

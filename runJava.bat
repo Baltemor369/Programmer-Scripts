@@ -20,7 +20,7 @@ echo NOM
 echo    runJava : compile and run a Java project.
 echo.
 echo SYNTAXE
-echo    runJava [OPTION]
+echo    runJava [-OPTION] [args]
 echo.
 echo OPTION
 echo    -n : program name which start your app [OPTIONAL] (Default:App).

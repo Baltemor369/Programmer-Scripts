@@ -10,7 +10,7 @@ echo NOM
 echo    upgradePython : update your pip. 
 echo.
 echo SYNTAXE
-echo    upgradePython [OPTION1]
+echo    upgradePython [-OPTION]
 echo.
 echo OPTION
 echo    -h : the helper.

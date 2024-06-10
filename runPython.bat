@@ -16,7 +16,7 @@ echo NOM
 echo    runPython : run a Python project.
 echo.
 echo SYNTAXE
-echo    runPython [OPTION]
+echo    runPython [-OPTION] [args]
 echo.
 echo OPTION
 echo    -n : program name which start your app [OPTIONAL] (Default:main.py).

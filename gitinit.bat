@@ -72,7 +72,7 @@ echo NOM
 echo    gitinit : init the local git repository with the remote repository.
 echo.
 echo SYNTAXE
-echo    gitinit [OPTION1] [OPTION2] [OPTION3]
+echo    gitinit -option args [-OPTION] [args]
 echo.
 echo OPTION
 echo    -o : the HTTPS url of the remote git repository.

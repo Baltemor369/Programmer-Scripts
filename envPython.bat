@@ -21,7 +21,7 @@ echo NOM
 echo    envPython : create and start a virtual env for Python project. 
 echo.
 echo SYNTAXE
-echo    envPython [OPTION1]
+echo    envPython [-OPTION]
 echo.
 echo OPTION
 echo    -h : the helper.
