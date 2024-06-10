@@ -5,9 +5,7 @@ IF "%~1"=="-help" GOTO helper
 SET branchName=main
 SET commitMessage=Update
 
-echo Have you created a .gitignore ? (y/n)
-set /p userResponse=
-IF /I "%userResponse%" NEQ "y" GOTO errorGitignore
+IF NOT EXIST .gitignore GOTO errorGitignore
 
 :parse
 IF "%~1"=="" GOTO endparse

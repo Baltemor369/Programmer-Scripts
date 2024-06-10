@@ -9,7 +9,6 @@ IF "%~1"=="-n" (
 )
 
 python name
-exit /b 0
 
 :helper
 echo.

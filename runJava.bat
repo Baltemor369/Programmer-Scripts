@@ -14,7 +14,6 @@ for /R %%f in (*.java) do set JAVAFILES=!JAVAFILES! %%f
 javac -d bin !JAVAFILES!
 java -cp bin %name%
 endlocal
-exit /b 0
 
 :helper
 echo NOM 

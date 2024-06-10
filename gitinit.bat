@@ -8,9 +8,7 @@ SET remote=
 SET branchName=main
 SET message=first commit
 
-echo Have you created a .gitignore ? (y/n)
-set /p userResponse=
-IF /I "%userResponse%" NEQ "y" GOTO errorGitignore
+IF NOT EXIST .gitignore GOTO errorGitignore
 
 IF "%~1"=="" (
     :url
