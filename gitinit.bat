@@ -53,7 +53,6 @@ git commit -m "%message%"
 git branch -m %branchName%
 git remote add origin %remote%
 git push -u origin %branchName%
-echo Git Command finished
 pause
 exit /b 0
 
