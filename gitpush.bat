@@ -30,7 +30,6 @@ git checkout %branchName%
 git add %files%
 git commit -m "%commitMessage%"
 git push -u origin %branchName%
-echo Git Command finished
 pause
 exit /b 0
 
