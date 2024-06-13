@@ -1,7 +1,9 @@
-function lab { Set-Location 'C:\Users\Thomas\Desktop\Coding\' }
+function lab {
+    Set-Location "C:\Users\%username%\Desktop\Coding"
+}
 function push {
     param (
-        [string]$files = ".",
+        [string[]]$files = @("."),
         [string]$branch = "main",
         [string]$message = "Update"
     )
@@ -81,7 +83,7 @@ function envPython {
 }
 
 function help {
-    Write-Host "lab : change directory to $USER\Desktop\Coding\"
+    Write-Host "lab : change directory to @USER\Desktop\Coding\"
     Write-Host ""
     Write-Host "push : push on github"
     Write-Host "    [param]"
