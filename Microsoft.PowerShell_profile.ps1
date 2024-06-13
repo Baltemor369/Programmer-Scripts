@@ -1,5 +1,6 @@
-function lab {
-    Set-Location "C:\Users\%username%\Desktop\Coding"
+function lab { 
+    $path = $env:userprofile + '\Desktop\Coding'
+    Set-Location $path
 }
 function push {
     param (
