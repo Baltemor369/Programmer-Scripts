@@ -1,8 +1,25 @@
-function lab { Set-Location 'C:\Users\Thomas\Desktop\Coding\' }
+function lab { 
+    param (
+        [string]$location=""
+    )
+    $path = $env:userprofile+'\Desktop\Coding\'
+    if ($location -eq "ls") {
+        Get-ChildItem ($path) | Format-Table
+        return
+    }
+    $path = $path + $location
+    if (!(Test-Path ($path))) {
+
+        Write-Host "Path doesn't exist : "$path
+    }else{
+        Set-Location ($path)
+    }
+}
+
 function push {
     param (
         [string]$files = ".",
-        [string]$branch = "main",
+        [string]$branchName = "main",
         [string]$message = "Update"
     )
 
@@ -11,17 +28,17 @@ function push {
         return
     }
 
-    git checkout $branch
+    git checkout $branchName
     git add $files
-    git commit -m $message
-    git push -u origin $branch
+    git commit -m $commitMessage
+    git push -u origin $branchName
 }
 
 function init {
     param (
         [string]$remote,
-        [string]$branch = "main",
-        [string]$message = "first commit"
+        [string]$branchName = "main",
+        [string]$commitMessage = "first commit"
     )
 
     if (!(Test-Path .gitignore)) {
@@ -36,13 +53,13 @@ function init {
 
     git init
     git add .
-    git commit -m $message
-    git branch -m $branch
+    git commit -m $commitMessage
+    git branch -m $branchName
     git remote add origin $remote
-    git push -u origin $branch
+    git push -u origin $branchName
 }
 
-function pip-upgrade {
+function update-pip {
     & python -m pip install --upgrade pip
 }
 
@@ -82,18 +99,21 @@ function envPython {
 
 function help {
     Write-Host "lab : change directory to $USER\Desktop\Coding\"
+    Write-Host "    [param]"
+    Write-Host "        -location : use to go to in a specific folder in your lab.(Default:'')"
+    Write-Host "        -ls : list the contents of the lab directory"
     Write-Host ""
     Write-Host "push : push on github"
     Write-Host "    [param]"
     Write-Host "        -files (Default:.)"
-    Write-Host "        -branch (Default: main)"
-    Write-Host "        -message (Default: Update)"
+    Write-Host "        -branchName (Default: main)"
+    Write-Host "        -commitMessage (Default: Update)"
     Write-Host ""
     Write-Host "init : init .git "
     Write-Host "    [param]"
     Write-Host "        -remote"
-    Write-Host "        -branch (Default: main)"
-    Write-Host "        -message (Default: first commit)"
+    Write-Host "        -branchName (Default: main)"
+    Write-Host "        -commitMessage (Default: first commit)"
     Write-Host ""
     Write-Host "pip-upgrade : upgrade your pip"
     Write-Host ""
