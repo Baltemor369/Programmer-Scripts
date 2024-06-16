@@ -1,19 +1,42 @@
-function lab { 
+# $env:MYPATH = $env:userprofile+'\Desktop\Coding\'
+
+function lab {
     param (
-        [string]$location=""
+        [string]$location,
+        [string]$set,
+        [switch]$get
     )
-    $path = $env:userprofile+'\Desktop\Coding\'
-    if ($location -eq "ls") {
-        Get-ChildItem ($path) | Format-Table
+    if ($get) {
+        Write-Host "Current path: $env:MYPATH"
         return
     }
-    $path = $path + $location
-    if (!(Test-Path ($path))) {
 
-        Write-Host "Path doesn't exist : "$path
-    }else{
-        Set-Location ($path)
+    if ($location -eq "ls") {
+        Get-ChildItem -Path $env:MYPATH | Format-Table
+        return
     }
+    
+    if ($location) {
+        $newPath = $env:MYPATH+$location
+        if (Test-Path ($newPath)) {
+            Set-Location -Path $newPath
+        } else {
+            Write-Host "Path '$newPath' does not exist."
+        }
+        return
+    }
+    
+    if ($set) {
+        $newPath = $env:userprofile + "\" + $set
+        if (Test-Path -Path $newPath) {
+            $env:MYPATH = $newPath
+            Write-Host new path : $env:MYPATH
+        } else {
+            Write-Host "Path '$newPath' does not exist."
+        }
+        return
+    }
+    Set-Location -Path $env:MYPATH
 }
 
 function push {
@@ -30,7 +53,7 @@ function push {
 
     git checkout $branchName
     git add $files
-    git commit -m $commitMessage
+    git commit -m $message
     git push -u origin $branchName
 }
 
@@ -59,7 +82,7 @@ function init {
     git push -u origin $branchName
 }
 
-function update-pip {
+function updatePip {
     & python -m pip install --upgrade pip
 }
 
@@ -98,35 +121,39 @@ function envPython {
 }
 
 function help {
-    Write-Host "lab : change directory to $USER\Desktop\Coding\"
+    Write-Host "mangatek : launch mangatek app"
+    Write-Host ""
+    Write-Host "lab : change directory to the mainPath : $USER\Desktop\Coding\"
     Write-Host "    [param]"
-    Write-Host "        -location : use to go to in a specific folder in your lab.(Default:'')"
-    Write-Host "        -ls : list the contents of the lab directory"
+    Write-Host "        -location (path): use to go to in a specific folder in your lab.(Default:'')"
+    Write-Host "            -ls: list the contents of the lab directory"
+    Write-Host "        -set (newPath): change the mainPath"
+    Write-Host "        -get: display the current mainPath"
     Write-Host ""
     Write-Host "push : push on github"
     Write-Host "    [param]"
-    Write-Host "        -files : list of file to push seperate with ',' (Default:.)"
-    Write-Host "        -branch : branch name(Default: main)"
-    Write-Host "        -message : commit message(Default: Update)"
+    Write-Host "        -files (path): files to push(Default:.)"
+    Write-Host "        -branchName (name): branch name(Default: main)"
+    Write-Host "        -message (text): your commit message(Default: Update)"
     Write-Host ""
     Write-Host "init : init .git "
     Write-Host "    [param]"
-    Write-Host "        -remote : HTTPS url from your git repository"
-    Write-Host "        -branch : branch name(Default: main)"
-    Write-Host "        -message : commit message (Default: first commit)"
+    Write-Host "        -remote (url): the HTTP url of the git repository"
+    Write-Host "        -branchName (name): branch name(Default: main)"
+    Write-Host "        -message (text): your commit message(Default:first commit)"
     Write-Host ""
-    Write-Host "pip-upgrade : upgrade your pip"
+    Write-Host "updatePip : upgrade your pip"
     Write-Host ""
     Write-Host "runPython : run normally python project"
     Write-Host "    [param]"
-    Write-Host "        -name : name of your mainfile(Default:main.py)"
+    Write-Host "        -name (Default:main.py)"
     Write-Host ""
     Write-Host "runJava : compile and run a java project"
     Write-Host "    [param]"
-    Write-Host "        -name : name of your mainfile(Default:App)"
+    Write-Host "        -name (Default:App)"
     Write-Host ""
     Write-Host "envPython : create env for python install requirements and run"
     Write-Host "    [param]"
-    Write-Host "        -name : name of your mainfile(Default:main.py)"
+    Write-Host "        -name (Default:main.py)"
     Write-Host ""
 }
