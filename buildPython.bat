@@ -3,7 +3,7 @@
 IF "%~1"=="-help" GOTO helper
 
 IF NOT EXIST setup.py (
-    echo Error: no setup.py file detected.
+    echo Error: no setup.py file found.
     exit /b 1
 )
 

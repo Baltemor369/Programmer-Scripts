@@ -11,7 +11,11 @@ IF "%~1"=="-n" (
 setlocal enabledelayedexpansion
 set CLASSPATH=.;%CLASSPATH%
 for /R %%f in (*.java) do set JAVAFILES=!JAVAFILES! %%f
+
+echo project compilation in bin\
 javac -d bin !JAVAFILES!
+
+echo launch App
 java -cp bin %name%
 endlocal
 

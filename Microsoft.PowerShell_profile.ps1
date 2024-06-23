@@ -1,4 +1,4 @@
-# $env:MYPATH = $env:userprofile+'\Desktop\Coding\'
+$env:MYPATH = $env:userprofile+'\Desktop\Coding\'
 
 function lab {
     param (
@@ -47,14 +47,40 @@ function push {
     )
 
     if (!(Test-Path .gitignore)) {
+        Write-Host create gitignore
         New-Item .gitignore -type file
         return
     }
 
-    git checkout $branchName
-    git add $files
-    git commit -m $message
-    git push -u origin $branchName
+    $current_branch = & git rev-parse --abbrev-ref HEAD
+
+    if ($current_branch -eq $branchName) {
+        git checkout $branchName
+        if ($LASTEXITCODE -ne 0) { Write-Host "git checkout failed"; return }
+        git add $files
+        if ($LASTEXITCODE -ne 0) { Write-Host "git add failed"; return }
+        git commit -m $message
+        if ($LASTEXITCODE -ne 0) { Write-Host "git commit failed"; return }
+        git push -u origin $branchName
+        if ($LASTEXITCODE -ne 0) { Write-Host "git push failed"; return }
+
+    } else {
+        Write-Host "Error : remote repository branch '$current_branch' and your current push branch '$branchName' are different."
+
+        $user_input = Read-Host "Do you want to push to the current branch '$current_branch'? (yes/no)"
+
+        if ($user_input -eq "y" -or $user_input -eq "yes") {
+            git checkout $current_branch
+            if ($LASTEXITCODE -ne 0) { Write-Host "git checkout failed"; return }
+            git add $files
+            if ($LASTEXITCODE -ne 0) { Write-Host "git add failed"; return }
+            git commit -m $message
+            if ($LASTEXITCODE -ne 0) { Write-Host "git commit failed"; return }
+            git push -u origin $current_branch
+            if ($LASTEXITCODE -ne 0) { Write-Host "git push failed"; return }
+        }
+    }
+    
 }
 
 function init {
@@ -65,33 +91,37 @@ function init {
     )
 
     if (!(Test-Path .gitignore)) {
+        Write-Host Create empty gitignore
         New-Item .gitignore -type file
         return
     }
 
     if (!$remote) {
-        Write-Host "check your argument -o."
+        Write-Host "check argument -remote."
         return
     }
 
     git init
+    if ($LASTEXITCODE -ne 0) { Write-Host "git init failed"; return }
+
     git add .
+    if ($LASTEXITCODE -ne 0) { Write-Host "git add failed"; return }
+
     git commit -m $commitMessage
+    if ($LASTEXITCODE -ne 0) { Write-Host "git commit failed"; return }
+
     git branch -m $branchName
+    if ($LASTEXITCODE -ne 0) { Write-Host "git branch rename failed"; return }
+
     git remote add origin $remote
+    if ($LASTEXITCODE -ne 0) { Write-Host "git remote add failed"; return }
+
     git push -u origin $branchName
+    if ($LASTEXITCODE -ne 0) { Write-Host "git push failed"; return }
 }
 
 function updatePip {
     & python -m pip install --upgrade pip
-}
-
-function runPython {
-    param (
-        [string]$name = "main.py"
-    )
-
-    & python $name
 }
 
 function runJava {
@@ -105,24 +135,33 @@ function runJava {
     & java -cp bin $name
 }
 
-function envPython {
+function runPython {
     param (
         [string]$name = "main.py"
     )
 
     if (!(Test-Path .env)) {
         python -m venv .env
-        .env\Scripts\activate
+        & .env\Scripts\activate
         pip install -r requirements.txt
     }else {
-        .env\Scripts\activate
+        & .env\Scripts\activate
     }
     & python $name
 }
 
+function run {
+    $current_path = Get-Location
+    $batch_file_path = Join-Path -Path $current_path -ChildPath "run.bat"
+
+    if (Test-Path $batch_file_path) {
+        & $batch_file_path
+    } else {
+        Write-Host "Error : file 'run.bat' not found."
+    }
+}
+
 function help {
-    Write-Host "mangatek : launch mangatek app"
-    Write-Host ""
     Write-Host "lab : change directory to the mainPath : $USER\Desktop\Coding\"
     Write-Host "    [param]"
     Write-Host "        -location (path): use to go to in a specific folder in your lab.(Default:'')"
